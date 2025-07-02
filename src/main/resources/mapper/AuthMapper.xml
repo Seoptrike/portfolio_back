@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.AuthMapper">
+
+    <!-- 사용자 로그인 정보 조회 -->
+    <select id="login" parameterType="com.backend.domain.UsersVO" resultType="com.backend.domain.UsersVO">
+        SELECT *
+        FROM users
+        WHERE username = #{username}
+          AND password = #{password}
+    </select>
+
+    <!-- 사용자 아이디로 사용자 정보 조회 -->
+    <select id="findByUsername" parameterType="string" resultType="com.backend.domain.UsersVO">
+        SELECT *
+        FROM users
+        WHERE username = #{username}
+    </select>
+
+    <insert id="register" parameterType="com.backend.domain.UsersVO">
+        INSERT INTO users (username,password,phone,photo,github_url)
+        values (#{username}, #{password}, #{phone}, #{photo}, #{github_url})
+    </insert>
+
+</mapper>

@@ -1,8 +1,13 @@
 package com.backend.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
-public class Project_itemsVO {
+@Setter
+@Getter
+public class ProjectItemsVO {
     private int project_item_id;
     private int user_id;
     private String title;
@@ -11,4 +16,5 @@ public class Project_itemsVO {
     private String github_url;
     private LocalDateTime created_at;
     private LocalDateTime updated_at;
+
 }
