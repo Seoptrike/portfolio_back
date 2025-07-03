@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins = {
         "http://localhost:5173",
@@ -18,7 +19,8 @@ public class PortfolioController {
     PortfolioService portfolioService;
 
     @PostMapping("/getUserTotalData")
-    public HashMap<String,Object> getUserTotalData(@RequestBody UsersVO vo){
-        return portfolioService.getUserTotalData(vo.getUsername());
+    public HashMap<String, Object> getUserTotalData(@RequestBody Map<String, String> request) {
+        String username = request.get("username");
+        return portfolioService.getUserTotalData(username);
     }
 }

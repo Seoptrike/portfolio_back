@@ -9,7 +9,7 @@
         FROM users
     </select>
 
-    <select id="findUserID" resultType="int" >
+    <select id="findUserID" resultType="Integer" >
         SELECT user_id
         FROM users
         WHERE username=#{username}

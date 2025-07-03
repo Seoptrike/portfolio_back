@@ -17,4 +17,8 @@ public class UserServiceImpl implements UserService{
     public List<UsersVO> getUserAllList() {
         return userMapper.getUserAllList();
     }
+
+    public int findUserID(String username){
+        return userMapper.findUserID(username);
+    }
 }

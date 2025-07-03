@@ -27,26 +27,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        String authHeader = request.getHeader("Authorization");
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7); // "Bearer " 제거
-            if (jwtUtil.validateToken(token)) {
-                Claims claims = jwtUtil.parseToken(token);
-                String username = claims.getSubject();
-                String role = claims.get("role", String.class); // 또는 Integer → String 변환
-                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
-
-
-                // 인증 객체 생성 및 등록
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, Collections.emptyList());
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = null;
+        if(request.getCookies() != null) {
+            for (var cookie : request.getCookies()){
+                if("token".equals(cookie.getName())){
+                    token = cookie.getValue();
+                    break;
+                }
             }
         }
+        if(token != null && jwtUtil.validateToken(token)){
+            Claims claims = jwtUtil.parseToken(token);
+            String username =claims.getSubject();
+            String role =claims.get("role", String.class);
+            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_"+role));
 
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(username, null, authorities);
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         filterChain.doFilter(request, response);
     }
 }

@@ -12,6 +12,6 @@ import java.util.List;
 public interface UserMapper {
     List<UsersVO> getUserAllList();
 
-    int findUserID(@Param("username") String username);
+    Integer findUserID(@Param("username") String username);
 }
 

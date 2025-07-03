@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "https://portfolio-front-dun.vercel.app"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+                .allowedHeaders("*")
+                .allowCredentials(true);
     }
 }
