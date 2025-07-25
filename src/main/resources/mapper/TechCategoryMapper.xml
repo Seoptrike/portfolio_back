@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.TechCategoryMapper">
+    <select id="selectCategory" resultType="com.backend.domain.TechCategoriesVO">
+        SELECT category_id, name
+        FROM tech_categories;
+    </select>
+
+    <insert id="insertCategory">
+        INSERT INTO tech_categories (name)
+        VALUES (#{name});
+    </insert>
+
+    <update id="updateCategory">
+        UPDATE tech_categories
+        SET name = #{name}
+        WHERE category_id=#{category_id};
+    </update>
+
+    <delete id="deleteCategory">
+        DELETE FROM tech_categories
+        WHERE category_id=#{category_id};
+    </delete>
+</mapper>

@@ -3,10 +3,9 @@ package com.backend.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
-public class TechStacksVO {
-    private int stack_id;
-    private String name;
+@Setter
+public class TechCategoriesVO {
     private int category_id;
+    private String name;
 }

@@ -36,19 +36,19 @@ public class CareerController {
     }
 
     // 📌 EducationHistory 등록
-    @PostMapping("/edu")
+    @PostMapping("/education")
     public void insertEduHistory(@RequestBody EducationHistoryVO evo) {
         careerService.insertEduHistory(evo);
     }
 
     // 📌 EducationHistory 수정
-    @PutMapping("/edu")
+    @PutMapping("/education")
     public void updateEduHistory(@RequestBody EducationHistoryVO evo) {
         careerService.updateEduHistory(evo);
     }
 
     // 📌 EducationHistory 삭제
-    @DeleteMapping("/edu/{eduId}")
+    @DeleteMapping("/education/{eduId}")
     public void deleteEduHistory(@PathVariable int eduId) {
         careerService.deleteEduHistory(eduId);
     }

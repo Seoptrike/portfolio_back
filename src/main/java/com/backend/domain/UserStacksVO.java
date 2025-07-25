@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UserStacks {
+public class UserStacksVO {
     private int user_stack_id;
     private int user_id;
     private int stack_id;
