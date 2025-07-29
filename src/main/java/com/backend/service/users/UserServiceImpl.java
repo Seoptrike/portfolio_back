@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService{
         result.put("workExperience", workExperienceMapper.findWorkExpByUserId(userID));
         result.put("educationHistory", educationHistoryMapper.findEduHistoryByUserID(userID));
         result.put("projects", projectMapper.findProjectByUserID(userID));
-        result.put("stacks", userStackMapper.findStackByUserIDWhereView(userID));
+        result.put("stacks", userStackMapper.selectUserStackByUserId(userID));
         return result;
     }
 }

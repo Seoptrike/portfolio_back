@@ -4,6 +4,7 @@ import com.backend.domain.UserStackRequestDTO;
 import com.backend.domain.UserStacksVO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface UserStackService {
@@ -12,4 +13,6 @@ public interface UserStackService {
     void insertUserStack(UserStackRequestDTO dto);
 
     void updateUserStack(UserStackRequestDTO dto);
+
+    List<HashMap<String,Object>> selectUserStackByUserId(String username);
 }

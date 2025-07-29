@@ -3,15 +3,13 @@ package com.backend.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
-@Setter
 @Getter
-public class ProjectsVO {
-    private int projectId;
-    private int userId;
+@Setter
+public class ProjectRequestDTO {
+    private String username;
     private String title;
     private String description;
     private LocalDate startDate;
@@ -20,6 +18,5 @@ public class ProjectsVO {
     private String deployUrl;
     private String notionUrl;
     private String thumbnailUrl;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private List<Integer> stackIds; // 기술스택 ID 목록
 }

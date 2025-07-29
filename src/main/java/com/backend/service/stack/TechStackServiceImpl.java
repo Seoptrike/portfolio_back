@@ -8,9 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TechStackServiceImpl implements TechStackService{
+public class TechStackServiceImpl implements TechStackService {
     @Autowired
     TechStackMapper techStackMapper;
+
     @Override
     public List<TechStacksVO> selectByCategoryNullable(String category) {
         return techStackMapper.selectByCategoryNullable(category);

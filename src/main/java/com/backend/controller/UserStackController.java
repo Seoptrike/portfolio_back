@@ -7,6 +7,7 @@ import com.backend.service.stack.UserStackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin(origins = {
@@ -34,4 +35,10 @@ public class UserStackController {
     void updateUserStack(@RequestBody UserStackRequestDTO dto){
         userStackService.updateUserStack(dto);
     }
+
+    @GetMapping("/{username}")
+    List<HashMap<String,Object>> selectUserStackByUserId(@PathVariable String username){
+        return userStackService.selectUserStackByUserId(username);
+    }
+
 }

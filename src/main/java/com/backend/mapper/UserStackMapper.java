@@ -13,7 +13,9 @@ public interface UserStackMapper {
 
     void updateUserStack(UserStacksVO vo);
 
-    List<HashMap<String,Object>> findStackByUserIDWhereView(@Param("user_id") int userId);
+    List<HashMap<String,Object>> findStackByUserIDWhereView(@Param("userId") int userId);
 
     void deleteUserStack(@Param("user_id") int userId);
+
+    List<HashMap<String,Object>> selectUserStackByUserId(@Param("userId") int userId);
 }

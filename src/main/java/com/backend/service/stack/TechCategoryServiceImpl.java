@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TechCategoryServiceImpl implements TechCategoryService{
+public class TechCategoryServiceImpl implements TechCategoryService {
 
     @Autowired
     TechCategoryMapper techCategoryMapper;

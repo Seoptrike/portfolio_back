@@ -10,4 +10,81 @@
         where user_id = #{user_id}
     </select>
 
+    <!-- insert project -->
+    <insert id="insertProject" useGeneratedKeys="true" keyProperty="projectId">
+        INSERT INTO projects (user_id, title, description, start_date, end_date,
+                              github_url, deploy_url, notion_url, thumbnail_url)
+        VALUES (#{userId}, #{title}, #{description}, #{startDate}, #{endDate},
+                #{githubUrl}, #{deployUrl}, #{notionUrl}, #{thumbnailUrl})
+    </insert>
+
+    <!-- insert project_stack -->
+    <insert id="insertProjectStacks">
+        INSERT INTO project_stack (project_id, stack_id)
+        VALUES
+        <foreach collection="stackIds" item="stackId" separator=",">
+            (#{projectId}, #{stackId})
+        </foreach>
+    </insert>
+
+    <!-- get projects by user -->
+    <select id="getProjectsByUserId" resultType="com.backend.domain.ProjectResponseDTO">
+        SELECT * FROM projects
+        WHERE user_id = #{userId}
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- get single project -->
+    <select id="getProjectStackById" resultType="com.backend.domain.ProjectStackVO">
+        SELECT * FROM project_stack
+        WHERE project_id = #{projectId}
+    </select>
+
+    <!-- update project -->
+    <update id="updateProject">
+        UPDATE projects
+        SET title = #{title},
+            description = #{description},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            github_url = #{githubUrl},
+            deploy_url = #{deployUrl},
+            notion_url = #{notionUrl},
+            thumbnail_url = #{thumbnailUrl},
+            updated_at = now()
+        WHERE project_id = #{projectId}
+    </update>
+
+    <!-- delete stacks for project -->
+    <delete id="deleteProjectStacks">
+        DELETE FROM project_stack
+        WHERE project_id = #{projectId}
+    </delete>
+
+    <!-- delete project -->
+    <delete id="deleteProject">
+        DELETE FROM projects
+        WHERE project_id = #{projectId}
+    </delete>
+    <!-- 기술스택 + 프로젝트 조회 -->
+    <select id="selectAllProjectsByUserId" resultType="hashMap">
+        SELECT
+            p.project_id,
+            p.title,
+            p.start_date,
+            p.end_date,
+            p.description,
+            p.thumbnail_url,
+            STRING_AGG(ts.name, ', ') AS stack_names
+        FROM
+            projects p
+                LEFT JOIN project_stack ps ON p.project_id = ps.project_id
+                LEFT JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
+        WHERE
+            p.user_id = #{userId}
+        GROUP BY
+            p.project_id, p.title
+        ORDER BY
+            p.project_id;
+    </select>
 </mapper>

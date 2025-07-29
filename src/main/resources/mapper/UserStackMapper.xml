@@ -31,4 +31,21 @@
         DELETE FROM user_stacks
         WHERE user_id = #{user_id}
     </delete>
+
+    <select id="selectUserStackByUserId" resultType="hashMap">
+        SELECT
+            ts.stack_id,
+            ts.name AS stack_name,
+            COUNT(*) AS usage_count
+        FROM
+            projects p
+                JOIN project_stack ps ON p.project_id = ps.project_id
+                JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
+        WHERE
+            p.user_id = #{userId}
+        GROUP BY
+            ts.stack_id, ts.name
+        ORDER BY
+            usage_count DESC;
+    </select>
 </mapper>
