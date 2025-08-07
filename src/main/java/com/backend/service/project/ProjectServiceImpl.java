@@ -81,4 +81,12 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return list != null ? list : new ArrayList<>();
     }
+
+    @Override
+    public HashMap<String,Object> selectProjectByProjectId(int projectId) {
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("project", projectMapper.selectProjectByPjId(projectId));
+        map.put("stacks", projectMapper.selectStackByProjectId(projectId));
+        return map;
+    }
 }

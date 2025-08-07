@@ -2,6 +2,7 @@ package com.backend.mapper;
 
 import com.backend.domain.ProjectResponseDTO;
 import com.backend.domain.ProjectsVO;
+import com.backend.domain.TechStacksVO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,13 +18,17 @@ public interface ProjectMapper {
 
     void updateProject(@RequestBody ProjectsVO vo);
 
-    void deleteProject(@Param("project_id") int projectId);
+    void deleteProject(@Param("projectId") int projectId);
 
-    List<ProjectResponseDTO> getProjectsByUserId(@Param("user_id") int userId);
+    List<ProjectResponseDTO> getProjectsByUserId(@Param("userId") int userId);
 
-    void deleteProjectStacks(@Param("project_id") int projectId);
+    void deleteProjectStacks(@Param("projectId") int projectId);
 
-    ProjectResponseDTO getProjectById(@Param("project_id") int projectId);
+    ProjectResponseDTO getProjectById(@Param("projectId") int projectId);
 
-    List<HashMap<String,Object>> selectAllProjectsByUserId(@Param("userId") int userId);
+    List<HashMap<String, Object>> selectAllProjectsByUserId(@Param("userId") int userId);
+
+    ProjectResponseDTO selectProjectByPjId(@Param("projectId") int projectId);
+
+    List<TechStacksVO> selectStackByProjectId(@Param("projectId") int projectId);
 }

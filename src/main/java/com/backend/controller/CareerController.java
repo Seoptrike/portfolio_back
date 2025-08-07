@@ -6,10 +6,6 @@ import com.backend.service.career.CareerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://seoportfolio.vercel.app"
-})
 @RestController
 @RequestMapping("/api/career")
 public class CareerController {

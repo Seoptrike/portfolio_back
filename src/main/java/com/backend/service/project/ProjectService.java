@@ -18,4 +18,6 @@ public interface ProjectService {
     ProjectResponseDTO getProjectById(int projectId);
 
     List<HashMap<String, Object>> selectAllProjectsByUsername(String username);
+
+    HashMap<String,Object>  selectProjectByProjectId(int projectId);
 }

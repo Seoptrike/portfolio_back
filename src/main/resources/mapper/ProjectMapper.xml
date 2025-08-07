@@ -75,6 +75,9 @@
             p.end_date,
             p.description,
             p.thumbnail_url,
+            p.github_url,
+            p.notion_url,
+            p.deploy_url,
             STRING_AGG(ts.name, ', ') AS stack_names
         FROM
             projects p
@@ -87,4 +90,42 @@
         ORDER BY
             p.project_id;
     </select>
+
+    <select id="selectProjectByPjId" resultType="com.backend.domain.ProjectResponseDTO">
+        SELECT
+            p.project_id,
+            p.title,
+            p.start_date,
+            p.end_date,
+            p.description,
+            p.thumbnail_url,
+            p.github_url,
+            p.notion_url,
+            p.deploy_url,
+            STRING_AGG(ts.name, ', ') AS stack_names
+        FROM
+            projects p
+                LEFT JOIN project_stack ps ON p.project_id = ps.project_id
+                LEFT JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
+        WHERE
+            p.project_id = #{projectId}
+        GROUP BY
+            p.project_id, p.title
+        ORDER BY
+            p.project_id;
+    </select>
+
+    <select id="selectStackByProjectId" resultType="com.backend.domain.TechStacksVO">
+        SELECT
+            ts.stack_id,
+            ts.name
+        FROM
+            project_stack ps
+                JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
+        WHERE
+            ps.project_id = #{projectId}
+        ORDER BY
+            ts.stack_id
+    </select>
+
 </mapper>

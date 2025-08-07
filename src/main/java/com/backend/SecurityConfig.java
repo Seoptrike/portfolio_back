@@ -44,7 +44,9 @@ public class SecurityConfig {
                                 "/swagger-resources/**",     // Swagger 리소스
                                 "/webjars/**",              // Swagger에서 사용하는 JS/CSS 등
                                 "/api/total/**",
-                                "/api/career/**"
+                                "/api/career/**",
+                                "/api/project/**",
+                                "/api/about/**"
                         ).permitAll()
                         .requestMatchers("/api/user/**").permitAll()//임시
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

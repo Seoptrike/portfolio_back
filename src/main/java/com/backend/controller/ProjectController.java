@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://seoportfolio.vercel.app"
-})
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
@@ -30,10 +26,11 @@ public class ProjectController {
     public ResponseEntity<List<HashMap<String, Object>>> selectAllProjectsByUsername(@PathVariable String username) {
         return ResponseEntity.ok(projectService.selectAllProjectsByUsername(username));
     }
+
     //특정 프로젝트 검색
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectResponseDTO> getProjectById(@PathVariable int projectId) {
-        return ResponseEntity.ok(projectService.getProjectById(projectId));
+    public ResponseEntity<HashMap<String, Object>> getProjectById(@PathVariable int projectId) {
+        return ResponseEntity.ok(projectService.selectProjectByProjectId(projectId));
     }
 
     @PutMapping("/{projectId}")

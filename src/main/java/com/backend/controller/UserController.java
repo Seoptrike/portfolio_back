@@ -6,10 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://seoportfolio.vercel.app"
-})
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
