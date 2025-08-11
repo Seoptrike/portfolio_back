@@ -1,10 +1,12 @@
 package com.backend.mapper;
 
-import com.backend.domain.TechStacksVO;
-import org.apache.ibatis.annotations.Param;
-
+import com.backend.domain.stack.TechStacksVO;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
 public interface TechStackMapper {
-    List<TechStacksVO> selectByCategoryNullable(@Param("category") String category);
+  List<TechStacksVO> selectByCategoryNullable(@Param("category") String category);
 }

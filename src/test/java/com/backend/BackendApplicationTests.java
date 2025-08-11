@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 @MapperScan("com.backend.mapper")
 class BackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+  @Test
+  void contextLoads() {}
 }

@@ -1,23 +1,22 @@
 package com.backend.service.project;
 
-import com.backend.domain.ProjectRequestDTO;
-import com.backend.domain.ProjectResponseDTO;
-
+import com.backend.domain.project.ProjectRequestDTO;
+import com.backend.domain.project.ProjectResponseDTO;
 import java.util.HashMap;
 import java.util.List;
 
 public interface ProjectService {
-    void createProject(ProjectRequestDTO dto);
+  void createProject(ProjectRequestDTO dto);
 
-    void updateProject(int projectId, ProjectRequestDTO dto);
+  void updateProject(int projectId, ProjectRequestDTO dto);
 
-    void deleteProject(int projectId);
+  void deleteProject(int projectId);
 
-    List<ProjectResponseDTO> getProjectsByUserId(String username);
+  List<ProjectResponseDTO> getProjectsByUserId(String username);
 
-    ProjectResponseDTO getProjectById(int projectId);
+  ProjectResponseDTO getProjectById(int projectId);
 
-    List<HashMap<String, Object>> selectAllProjectsByUsername(String username);
+  List<HashMap<String, Object>> selectAllProjectsByUsername(String username);
 
-    HashMap<String,Object>  selectProjectByProjectId(int projectId);
+  HashMap<String, Object> selectProjectByProjectId(int projectId);
 }

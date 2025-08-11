@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'pmd'
+	id 'com.diffplug.spotless' version '6.25.0'
 }
 
 group = 'com'
@@ -40,6 +42,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
 }
 
 tasks.named('test') {
@@ -51,5 +54,39 @@ sourceSets {
 		resources {
 			srcDirs = ['src/main/resources']
 		}
+	}
+}
+
+// ✅ 1. PMD 플러그인 전역 설정 블록
+// toolVersion, ignoreFailures 등은 여기에 작성합니다.
+pmd {
+	toolVersion = "6.55.0"
+	ignoreFailures = true
+	consoleOutput = true
+}
+
+// ✅ 2. PMD 태스크 개별 설정 블록
+// ruleSets, reports 등은 여기에 작성합니다.
+tasks.withType(Pmd).configureEach {
+	classpath = sourceSets.main.compileClasspath
+
+	reports {
+		xml.required = false
+		html.required = true
+	}
+	ruleSets = [
+			"category/java/bestpractices.xml",
+			"category/java/codestyle.xml",
+			"category/java/errorprone.xml"
+	]
+}
+
+spotless {
+	// Java 소스 코드에 적용할 규칙을 정의합니다.
+	java {
+		googleJavaFormat()
+		removeUnusedImports()
+		trimTrailingWhitespace()
+		endWithNewline()
 	}
 }

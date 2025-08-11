@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.mapper.ProjectMapper">
-    <select id="findProjectByUserID" resultType="com.backend.domain.ProjectsVO">
+    <select id="findProjectByUserID" resultType="com.backend.domain.project.ProjectsVO">
         SELECT *
         FROM projects
         where user_id = #{user_id}
@@ -28,14 +28,14 @@
     </insert>
 
     <!-- get projects by user -->
-    <select id="getProjectsByUserId" resultType="com.backend.domain.ProjectResponseDTO">
+    <select id="getProjectsByUserId" resultType="com.backend.domain.project.ProjectResponseDTO">
         SELECT * FROM projects
         WHERE user_id = #{userId}
         ORDER BY created_at DESC
     </select>
 
     <!-- get single project -->
-    <select id="getProjectStackById" resultType="com.backend.domain.ProjectStackVO">
+    <select id="getProjectStackById" resultType="com.backend.domain.project.ProjectStackVO">
         SELECT * FROM project_stack
         WHERE project_id = #{projectId}
     </select>
@@ -91,7 +91,7 @@
             p.project_id;
     </select>
 
-    <select id="selectProjectByPjId" resultType="com.backend.domain.ProjectResponseDTO">
+    <select id="selectProjectByPjId" resultType="com.backend.domain.project.ProjectResponseDTO">
         SELECT
             p.project_id,
             p.title,
@@ -115,7 +115,7 @@
             p.project_id;
     </select>
 
-    <select id="selectStackByProjectId" resultType="com.backend.domain.TechStacksVO">
+    <select id="selectStackByProjectId" resultType="com.backend.domain.stack.TechStacksVO">
         SELECT
             ts.stack_id,
             ts.name

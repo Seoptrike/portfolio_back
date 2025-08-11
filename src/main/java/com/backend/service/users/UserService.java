@@ -1,14 +1,13 @@
 package com.backend.service.users;
 
-import com.backend.domain.UsersVO;
-
+import com.backend.domain.user.UsersVO;
 import java.util.HashMap;
 import java.util.List;
 
 public interface UserService {
-    List<UsersVO> getUserAllList();
+  List<UsersVO> getUserAllList();
 
-    int findUserID(String username);
+  int findUserID(String username);
 
-    HashMap<String, Object> getUserTotalData(String username);
+  HashMap<String, Object> getUserTotalData(String username);
 }

@@ -1,17 +1,16 @@
 package com.backend.service.about;
 
-import com.backend.domain.AboutMeDetailSortDTO;
-import com.backend.domain.AboutMeDetailVO;
-
+import com.backend.domain.about.AboutMeDetailSortDTO;
+import com.backend.domain.about.AboutMeDetailVO;
 
 public interface AboutMeDetailService {
-    void createDetail(AboutMeDetailVO vo);
+  void createDetail(AboutMeDetailVO vo);
 
-    void updateDetail(AboutMeDetailVO vo);
+  void updateDetail(AboutMeDetailVO vo);
 
-    void deleteDetail(int detailId);
+  void deleteDetail(int detailId);
 
-    void updateSort(AboutMeDetailSortDTO dto);
+  void updateSort(AboutMeDetailSortDTO dto);
 
-    void deleteAllByAboutId(int aboutId);
+  void deleteAllByAboutId(int aboutId);
 }

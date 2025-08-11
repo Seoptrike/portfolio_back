@@ -1,17 +1,18 @@
 package com.backend.mapper;
 
-import com.backend.domain.WorkExperiencesVO;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.RequestBody;
-
+import com.backend.domain.career.WorkExperiencesVO;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
 public interface WorkExperienceMapper {
-    List<WorkExperiencesVO> findWorkExpByUserId(@Param("user_id") int userId);
+  List<WorkExperiencesVO> findWorkExpByUserId(@Param("userId") int userId);
 
-    void insertWorkExp(WorkExperiencesVO wvo);
+  void insertWorkExp(WorkExperiencesVO wvo);
 
-    void updateWorkExp(WorkExperiencesVO wvo);
+  void updateWorkExp(WorkExperiencesVO wvo);
 
-    void deleteWorkExp(@Param("work_id") int workId);
+  void deleteWorkExp(@Param("workId") int workId);
 }

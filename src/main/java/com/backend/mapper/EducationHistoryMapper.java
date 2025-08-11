@@ -1,16 +1,18 @@
 package com.backend.mapper;
 
-import com.backend.domain.EducationHistoryVO;
-import org.apache.ibatis.annotations.Param;
-
+import com.backend.domain.career.EducationHistoryVO;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
 public interface EducationHistoryMapper {
-    List<EducationHistoryVO> findEduHistoryByUserID(@Param("user_id") int userId);
+  List<EducationHistoryVO> findEduHistoryByUserID(@Param("userId") int userId);
 
-    void insertEduHistory(EducationHistoryVO evo);
+  void insertEduHistory(EducationHistoryVO evo);
 
-    void updateEduHistory(EducationHistoryVO evo);
+  void updateEduHistory(EducationHistoryVO evo);
 
-    void deleteEduHistory(@Param("education_id") int education_id);
+  void deleteEduHistory(@Param("educationId") int educationId);
 }

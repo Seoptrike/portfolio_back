@@ -11,7 +11,7 @@
     </insert>
 
     <!-- 자기소개서 단건 조회 -->
-    <select id="getAboutMeById" resultType="com.backend.domain.AboutMeVO">
+    <select id="getAboutMeById" resultType="com.backend.domain.about.AboutMeVO">
         SELECT *
         FROM about_me
         WHERE about_id = #{aboutId}

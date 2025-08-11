@@ -1,38 +1,36 @@
 package com.backend.controller;
 
-import com.backend.domain.TechCategoriesVO;
+import com.backend.domain.stack.TechCategoriesVO;
 import com.backend.mapper.TechCategoryMapper;
 import com.backend.service.stack.TechCategoryService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tech-categories")
 public class TechCategoryController {
-    @Autowired
-    TechCategoryMapper techCategoryMapper;
+  @Autowired TechCategoryMapper techCategoryMapper;
 
-    @Autowired
-    TechCategoryService techCategoryService;
-    @GetMapping
-    public List<TechCategoriesVO> selectCategory() {
-        return techCategoryService.getAllCategories();
-    }
+  @Autowired TechCategoryService techCategoryService;
 
-    @PostMapping
-    public void insertCategory(@RequestBody TechCategoriesVO TCvo) {
-        techCategoryService.addCategory(TCvo.getName());
-    }
+  @GetMapping
+  public List<TechCategoriesVO> selectCategory() {
+    return techCategoryService.getAllCategories();
+  }
 
-    @PutMapping
-    public void updateCategory(@RequestBody TechCategoriesVO TCvo) {
-        techCategoryService.updateCategory(TCvo);
-    }
+  @PostMapping
+  public void insertCategory(@RequestBody TechCategoriesVO TCvo) {
+    techCategoryService.addCategory(TCvo.getName());
+  }
 
-    @DeleteMapping("/{categoryId}")
-    public void deleteCategory(@PathVariable int categoryId) {
-        techCategoryService.deleteCategory(categoryId);
-    }
+  @PutMapping
+  public void updateCategory(@RequestBody TechCategoriesVO TCvo) {
+    techCategoryService.updateCategory(TCvo);
+  }
+
+  @DeleteMapping("/{categoryId}")
+  public void deleteCategory(@PathVariable int categoryId) {
+    techCategoryService.deleteCategory(categoryId);
+  }
 }

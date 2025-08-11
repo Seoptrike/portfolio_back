@@ -4,10 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.mapper.EducationHistoryMapper">
-    <select id="findEduHistoryByUserID" resultType="com.backend.domain.EducationHistoryVO">
+    <select id="findEduHistoryByUserID" resultType="com.backend.domain.career.EducationHistoryVO">
         SELECT *
         From education_history
-        where user_id=#{user_id}
+        where user_id=#{userId}
     </select>
 
     <insert id="insertEduHistory">
@@ -19,26 +19,26 @@
             end_date
         )
         VALUES (
-                   #{user_id},
-                   #{school_name},
+                   #{userId},
+                   #{schoolName},
                    #{major},
-                   #{start_date},
-                   #{end_date}
+                   #{startDate},
+                   #{endDate}
                )
     </insert>
 
 
     <update id="updateEduHistory">
         UPDATE education_history
-        SET school_name = #{school_name},
+        SET school_name = #{schoolName},
             major = #{major},
-            start_date = #{start_date},
-            end_date = #{end_date}
-        WHERE education_id = #{education_id}
+            start_date = #{startDate},
+            end_date = #{endDate}
+        WHERE education_id = #{educationId}
     </update>
 
     <delete id="deleteEduHistory">
         DELETE FROM education_history
-        WHERE education_id = #{education_id}
+        WHERE education_id = #{educationId}
     </delete>
 </mapper>

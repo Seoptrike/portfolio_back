@@ -1,21 +1,26 @@
 package com.backend.service.career;
 
-import com.backend.domain.EducationHistoryVO;
-import com.backend.domain.WorkExperiencesVO;
+import com.backend.domain.career.EducationHistoryVO;
+import com.backend.domain.career.WorkExpRequestDTO;
+import com.backend.domain.career.WorkExperiencesVO;
 import com.backend.mapper.EducationHistoryMapper;
+import com.backend.mapper.UserMapper;
 import com.backend.mapper.WorkExperienceMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class CareerServiceImpl implements CareerService {
-    @Autowired
-    WorkExperienceMapper workExperienceMapper;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-    @Autowired
-    EducationHistoryMapper educationHistoryMapper;
+@Service
+@RequiredArgsConstructor
+public class CareerServiceImpl implements CareerService {
+    private final UserMapper userMapper;
+    private final WorkExperienceMapper workExperienceMapper;
+    private final EducationHistoryMapper educationHistoryMapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public List<WorkExperiencesVO> findWorkExpByUserId(int userId) {
@@ -23,13 +28,19 @@ public class CareerServiceImpl implements CareerService {
     }
 
     @Override
-    public void insertWorkExp(WorkExperiencesVO wvo) {
-        workExperienceMapper.insertWorkExp(wvo);
+    public void insertWorkExp(WorkExpRequestDTO dto) {
+        WorkExperiencesVO vo = modelMapper.map(dto, WorkExperiencesVO.class);
+        int userId = userMapper.findUserID(dto.getUsername());
+        vo.setUserId(userId);
+        workExperienceMapper.insertWorkExp(vo);
     }
 
     @Override
-    public void updateWorkExp(WorkExperiencesVO wvo) {
-        workExperienceMapper.updateWorkExp(wvo);
+    public void updateWorkExp(WorkExpRequestDTO dto) {
+        WorkExperiencesVO vo = modelMapper.map(dto, WorkExperiencesVO.class);
+        int userId = userMapper.findUserID(dto.getUsername());
+        vo.setUserId(userId);
+        workExperienceMapper.updateWorkExp(vo);
     }
 
     @Override

@@ -1,18 +1,16 @@
 package com.backend.service.stack;
 
-import com.backend.domain.UserStackRequestDTO;
-import com.backend.domain.UserStacksVO;
-import org.apache.ibatis.annotations.Param;
-
+import com.backend.domain.stack.UserStackRequestDTO;
+import com.backend.domain.stack.UserStacksVO;
 import java.util.HashMap;
 import java.util.List;
 
 public interface UserStackService {
-    List<UserStacksVO> findStackByUserID(int userID);
+  List<UserStacksVO> findStackByUserID(int userID);
 
-    void insertUserStack(UserStackRequestDTO dto);
+  void insertUserStack(UserStackRequestDTO dto);
 
-    void updateUserStack(UserStackRequestDTO dto);
+  void updateUserStack(UserStackRequestDTO dto);
 
-    List<HashMap<String,Object>> selectUserStackByUserId(String username);
+  List<HashMap<String, Object>> selectUserStackByUserId(String username);
 }

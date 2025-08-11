@@ -1,15 +1,14 @@
 package com.backend.service.stack;
 
-import com.backend.domain.TechCategoriesVO;
-
+import com.backend.domain.stack.TechCategoriesVO;
 import java.util.List;
 
 public interface TechCategoryService {
-    List<TechCategoriesVO> getAllCategories();
+  List<TechCategoriesVO> getAllCategories();
 
-    void addCategory(String name);
+  void addCategory(String name);
 
-    void updateCategory(TechCategoriesVO category);
+  void updateCategory(TechCategoriesVO category);
 
-    void deleteCategory(int categoryId);
+  void deleteCategory(int categoryId);
 }
