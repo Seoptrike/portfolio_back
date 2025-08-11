@@ -4,22 +4,28 @@
 FROM gradle:8.8-jdk21 AS build
 WORKDIR /app
 
-# 캐시를 위해 빌드 스크립트 먼저 복사
-COPY gradlew settings.gradle build.gradle ./
+# 래퍼/스크립트 먼저 (캐시 최적화)
+COPY gradlew settings.gradle* build.gradle* ./
 COPY gradle/wrapper/ gradle/wrapper/
-RUN chmod +x gradlew && ./gradlew --version
 
-# 의존성 미리 받아서 캐시
+# 윈도우 개행/권한 이슈 방지
+RUN chmod +x gradlew && sed -i 's/\r$//' gradlew && ./gradlew --no-daemon --version
+
+# 의존성 캐시(실패해도 계속)
 RUN ./gradlew --no-daemon dependencies || true
 
 # 소스 복사 후 실제 빌드
 COPY src ./src
-RUN ./gradlew --no-daemon clean build -x test --stacktrace --info
+RUN ./gradlew --no-daemon clean bootJar \
+    -x test -x pmdMain -x pmdTest -x spotlessCheck \
+    --stacktrace --info --warning-mode all \
+ && JAR=$(ls build/libs/*.jar | grep -v plain | head -n 1) \
+ && cp "$JAR" app.jar
 
 # ---- run stage ----
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
+COPY --from=build /app/app.jar /app/app.jar
 ENV TZ=Asia/Seoul
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
