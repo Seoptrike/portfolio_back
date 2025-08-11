@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-@Mapper
 public interface WorkDetailMapper {
     /**
      * 특정 사용자의 모든 경력(work_experiences)과

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Mapper
+
 public interface ProjectMapper {
   List<ProjectsVO> findProjectByUserID(@Param("user_id") int userId);
 

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-@Mapper
+
 public interface EducationHistoryMapper {
   List<EducationHistoryVO> findEduHistoryByUserID(@Param("userId") int userId);
 

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.HashMap;
 import java.util.List;
 
-@Mapper
+
 public interface AboutMeMapper {
   // 생성
   void insertAboutMe(AboutMeVO vo);
