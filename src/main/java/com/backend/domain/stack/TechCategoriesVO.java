@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TechCategoriesVO {
-  private int category_id;
+  private int categoryId;
   private String name;
 }

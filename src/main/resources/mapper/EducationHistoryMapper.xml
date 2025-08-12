@@ -8,6 +8,7 @@
         SELECT *
         From education_history
         where user_id=#{userId}
+        ORDER BY end_date DESC NULLS FIRST, start_date DESC
     </select>
 
     <insert id="insertEduHistory">

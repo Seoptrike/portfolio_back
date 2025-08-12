@@ -4,128 +4,106 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.mapper.ProjectMapper">
-    <select id="findProjectByUserID" resultType="com.backend.domain.project.ProjectsVO">
-        SELECT *
-        FROM projects
-        where user_id = #{user_id}
-    </select>
 
-    <!-- insert project -->
-    <insert id="insertProject" useGeneratedKeys="true" keyProperty="projectId">
-        INSERT INTO projects (user_id, title, description, start_date, end_date,
-                              github_url, deploy_url, notion_url, thumbnail_url)
-        VALUES (#{userId}, #{title}, #{description}, #{startDate}, #{endDate},
-                #{githubUrl}, #{deployUrl}, #{notionUrl}, #{thumbnailUrl})
+    <resultMap id="ProjectJoinMap" type="com.backend.domain.project.ProjectResponseDTO">
+        <id property="projectId" column="project_id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="githubUrl" column="github_url"/>
+        <result property="deployUrl" column="deploy_url"/>
+        <result property="notionUrl" column="notion_url"/>
+        <result property="thumbnailUrl" column="thumbnail_url"/>
+
+        <!-- ★ TechStacksVO: stackId, name, categoryId 만 매핑 -->
+        <collection property="stackNames" ofType="com.backend.domain.stack.TechStacksVO">
+            <id property="stackId" column="s_stack_id"/>
+            <result property="name" column="s_name"/>
+            <result property="categoryId" column="s_category_id"/>
+        </collection>
+    </resultMap>
+
+    <!-- === CRUD === -->
+    <insert id="insertProject" parameterType="com.backend.domain.project.ProjectsVO"
+            useGeneratedKeys="true" keyProperty="projectId">
+        INSERT INTO projects
+        (user_id, title, description, start_date, end_date, github_url, deploy_url, notion_url, thumbnail_url)
+        VALUES (#{userId}, #{title}, #{description}, #{startDate}, #{endDate}, #{githubUrl}, #{deployUrl}, #{notionUrl},
+                #{thumbnailUrl})
     </insert>
 
-    <!-- insert project_stack -->
-    <insert id="insertProjectStacks">
-        INSERT INTO project_stack (project_id, stack_id)
-        VALUES
-        <foreach collection="stackIds" item="stackId" separator=",">
-            (#{projectId}, #{stackId})
-        </foreach>
-    </insert>
-
-    <!-- get projects by user -->
-    <select id="getProjectsByUserId" resultType="com.backend.domain.project.ProjectResponseDTO">
-        SELECT * FROM projects
-        WHERE user_id = #{userId}
-        ORDER BY created_at DESC
-    </select>
-
-    <!-- get single project -->
-    <select id="getProjectStackById" resultType="com.backend.domain.project.ProjectStackVO">
-        SELECT * FROM project_stack
-        WHERE project_id = #{projectId}
-    </select>
-
-    <!-- update project -->
-    <update id="updateProject">
+    <update id="updateProject" parameterType="com.backend.domain.project.ProjectsVO">
         UPDATE projects
-        SET title = #{title},
-            description = #{description},
-            start_date = #{startDate},
-            end_date = #{endDate},
-            github_url = #{githubUrl},
-            deploy_url = #{deployUrl},
-            notion_url = #{notionUrl},
-            thumbnail_url = #{thumbnailUrl},
-            updated_at = now()
+        SET title         = #{title},
+            description   = #{description},
+            start_date    = #{startDate},
+            end_date      = #{endDate},
+            github_url    = #{githubUrl},
+            deploy_url    = #{deployUrl},
+            notion_url    = #{notionUrl},
+            thumbnail_url = #{thumbnailUrl}
         WHERE project_id = #{projectId}
     </update>
 
-    <!-- delete stacks for project -->
-    <delete id="deleteProjectStacks">
-        DELETE FROM project_stack
+    <delete id="deleteProject" parameterType="int">
+        DELETE
+        FROM projects
         WHERE project_id = #{projectId}
     </delete>
 
-    <!-- delete project -->
-    <delete id="deleteProject">
-        DELETE FROM projects
+    <delete id="deleteProjectStacks" parameterType="int">
+        DELETE
+        FROM project_stack
         WHERE project_id = #{projectId}
     </delete>
-    <!-- 기술스택 + 프로젝트 조회 -->
-    <select id="selectAllProjectsByUserId" resultType="hashMap">
-        SELECT
-            p.project_id,
-            p.title,
-            p.start_date,
-            p.end_date,
-            p.description,
-            p.thumbnail_url,
-            p.github_url,
-            p.notion_url,
-            p.deploy_url,
-            STRING_AGG(ts.name, ', ') AS stack_names
-        FROM
-            projects p
-                LEFT JOIN project_stack ps ON p.project_id = ps.project_id
-                LEFT JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
-        WHERE
-            p.user_id = #{userId}
-        GROUP BY
-            p.project_id, p.title
-        ORDER BY
-            p.project_id;
+
+    <insert id="insertProjectStacks">
+        INSERT INTO project_stack (project_id, stack_id)
+        VALUES
+        <foreach collection="stackIds" item="sid" separator=",">
+            (#{projectId}, #{sid})
+        </foreach>
+    </insert>
+
+    <select id="selectProjectsByUserId" resultMap="ProjectJoinMap">
+        SELECT p.project_id,
+               p.title,
+               p.description,
+               p.start_date,
+               p.end_date,
+               p.github_url,
+               p.deploy_url,
+               p.notion_url,
+               p.thumbnail_url,
+               s.stack_id    AS s_stack_id,
+               s.name        AS s_name,
+               s.category_id AS s_category_id
+        FROM projects p
+                 LEFT JOIN project_stack ps ON ps.project_id = p.project_id
+                 LEFT JOIN tech_stacks s ON s.stack_id = ps.stack_id
+        WHERE p.user_id = #{userId}
+        ORDER BY p.end_date DESC NULLS FIRST, p.start_date DESC, s.name
     </select>
 
-    <select id="selectProjectByPjId" resultType="com.backend.domain.project.ProjectResponseDTO">
-        SELECT
-            p.project_id,
-            p.title,
-            p.start_date,
-            p.end_date,
-            p.description,
-            p.thumbnail_url,
-            p.github_url,
-            p.notion_url,
-            p.deploy_url,
-            STRING_AGG(ts.name, ', ') AS stack_names
-        FROM
-            projects p
-                LEFT JOIN project_stack ps ON p.project_id = ps.project_id
-                LEFT JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
-        WHERE
-            p.project_id = #{projectId}
-        GROUP BY
-            p.project_id, p.title
-        ORDER BY
-            p.project_id;
-    </select>
-
-    <select id="selectStackByProjectId" resultType="com.backend.domain.stack.TechStacksVO">
-        SELECT
-            ts.stack_id,
-            ts.name
-        FROM
-            project_stack ps
-                JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
-        WHERE
-            ps.project_id = #{projectId}
-        ORDER BY
-            ts.stack_id
+    <select id="selectProjectById" resultMap="ProjectJoinMap">
+        SELECT p.project_id,
+               p.title,
+               p.description,
+               p.start_date,
+               p.end_date,
+               p.github_url,
+               p.deploy_url,
+               p.notion_url,
+               p.thumbnail_url,
+               s.stack_id    AS s_stack_id,
+               s.name        AS s_name,
+               s.category_id AS s_category_id
+        FROM projects p
+                 LEFT JOIN project_stack ps ON ps.project_id = p.project_id
+                 LEFT JOIN tech_stacks s ON s.stack_id = ps.stack_id
+        WHERE p.project_id = #{projectId}
+        ORDER BY s.name
     </select>
 
 </mapper>

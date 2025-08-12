@@ -6,7 +6,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TechStacksVO {
-  private int stack_id;
+  private int stackId;
   private String name;
-  private int category_id;
+  private int categoryId;
 }

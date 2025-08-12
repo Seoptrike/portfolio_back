@@ -1,5 +1,6 @@
 package com.backend.service.users;
 
+import com.backend.domain.project.ProjectResponseDTO;
 import com.backend.domain.user.UsersVO;
 import com.backend.mapper.*;
 import java.util.*;
@@ -37,18 +38,10 @@ public class UserServiceImpl implements UserService {
       result.put("about", Collections.emptyList());
       return result;
     }
-    List<HashMap<String, Object>> list = projectMapper.selectAllProjectsByUserId(userID);
-    for (Map<String, Object> project : list) {
-      Object stackNames = project.get("stack_names");
-      if (stackNames != null && stackNames instanceof String) {
-        String[] stackArray = ((String) stackNames).split("\\s*,\\s*"); // 쉼표+공백 기준 분리
-        project.put("stack_names", Arrays.asList(stackArray)); // 배열로 덮어쓰기
-      }
-    }
     result.put("userID", userID);
     result.put("workExperience", workExperienceMapper.findWorkExpByUserId(userID));
     result.put("educationHistory", educationHistoryMapper.findEduHistoryByUserID(userID));
-    result.put("projects", list);
+    result.put("projects", projectMapper.selectProjectsByUserId(userID));
     result.put("stacks", userStackMapper.selectUserStackByUserId(userID));
     return result;
   }

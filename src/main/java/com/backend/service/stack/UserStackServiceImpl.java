@@ -29,8 +29,8 @@ public class UserStackServiceImpl implements UserStackService {
     List<StackWithScore> stackList = dto.getStackList();
     for (StackWithScore stacks : stackList) {
       UserStacksVO vo = new UserStacksVO();
-      vo.setUser_id(userId);
-      vo.setStack_id(stacks.getStackId());
+      vo.setUserId(userId);
+      vo.setStackId(stacks.getStackId());
       vo.setScore(stacks.getScore());
       userStackMapper.insertUserStack(vo);
     }
@@ -43,8 +43,8 @@ public class UserStackServiceImpl implements UserStackService {
     List<StackWithScore> stackList = dto.getStackList();
     for (StackWithScore stacks : stackList) {
       UserStacksVO vo = new UserStacksVO();
-      vo.setUser_id(userId);
-      vo.setStack_id(stacks.getStackId());
+      vo.setUserId(userId);
+      vo.setStackId(stacks.getStackId());
       vo.setScore(stacks.getScore());
       userStackMapper.insertUserStack(vo);
     }

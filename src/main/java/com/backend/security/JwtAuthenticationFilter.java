@@ -33,17 +33,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String token = resolveToken(request);
-        if (token != null) {
-            log.debug("JWT token detected");
-        } else {
-            log.debug("JWT token not found in Authorization header nor cookie");
-        }
 
         boolean ok = false;
         try { ok = (token != null && jwtUtil.validateToken(token)); }
         catch (Exception e) { log.warn("validateToken threw: {}", e.toString()); }
-        log.debug("JWT validateToken = {}", ok);
-
 
         try {
             if (token != null && jwtUtil.validateToken(token)) {
@@ -60,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 var ctx = SecurityContextHolder.createEmptyContext();
                 ctx.setAuthentication(auth);
                 SecurityContextHolder.setContext(ctx);
-                log.debug("JWT auth set for username={}", username);
             } else {
                 SecurityContextHolder.clearContext(); // 유효하지 않으면 컨텍스트 정리
             }

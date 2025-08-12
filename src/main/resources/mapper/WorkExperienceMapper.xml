@@ -7,7 +7,8 @@
     <select id="findWorkExpByUserId" resultType="com.backend.domain.career.WorkExperiencesVO">
         SELECT *
         FROM work_experiences
-        WHERE user_id=#{userId}
+        WHERE user_id = #{userId}
+        ORDER BY end_date DESC NULLS FIRST, start_date DESC
     </select>
 
     <insert id="insertWorkExp">
