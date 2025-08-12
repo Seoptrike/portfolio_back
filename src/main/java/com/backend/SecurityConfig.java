@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -18,63 +19,60 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration c = new CorsConfiguration();
+        // 프리뷰까지 허용하려면 setAllowedOriginPatterns 사용
+        c.setAllowedOriginPatterns(List.of(
+                "http://localhost:5173",
+                "https://portfolio-front-dun.vercel.app",
+                "https://*.vercel.app"
+        ));
+        c.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
+        c.setAllowedHeaders(List.of("*"));
+        c.setAllowCredentials(true);
+        c.setExposedHeaders(List.of("Authorization","Authorization-refresh"));
+
+        UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();
+        src.registerCorsConfiguration("/**", c);
+        return src;
     }
 
-    // 2. Security 설정
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtUtil jwtUtil) throws Exception {
-        http.cors(Customizer.withDefaults()) // ✅ CORS 활성화
-                .csrf(csrf -> csrf.disable()) // CSRF 비활성화
-                .sessionManagement(
-                        session ->
-                                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 비활성화 → JWT용
-                .authorizeHttpRequests(
-                        auth ->
-                                auth.requestMatchers(
-                                                "/api/auth/**", // 로그인, 회원가입
-                                                "/swagger-ui/**", // Swagger UI 정적 리소스
-                                                "/v3/api-docs/**", // Swagger API 문서
-                                                "/swagger-resources/**", // Swagger 리소스
-                                                "/webjars/**", // Swagger에서 사용하는 JS/CSS 등
-                                                "/api/total/**",
-                                                "/api/career/**",
-                                                "/api/project/**",
-                                                "/api/about/**",
-                                                "/api/resume/**",
-                                                "/api/guest/**")
-                                        .permitAll()
-                                        .requestMatchers("/api/user/**")
-                                        .permitAll() // 임시
-                                        .requestMatchers("/api/admin/**")
-                                        .hasRole("ADMIN")
-                                        .anyRequest()
-                                        .authenticated())
-                .exceptionHandling(
-                        ex ->
-                                ex.authenticationEntryPoint(
-                                        (req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)));
-        http.addFilterBefore(
-                new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+    public SecurityFilterChain security(HttpSecurity http) throws Exception {
+        http
+                .cors(c -> c.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/auth/**",
+                                "/swagger-ui/**","/v3/api-docs/**","/swagger-resources/**","/webjars/**",
+                                "/api/total/**","/api/career/**","/api/project/**",
+                                "/api/about/**","/api/resume/**","/api/guest/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(
+                        (req, res, e) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
-
-    // 3. AuthenticationManager 빈 등록 (필수)
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    // 4. 필요 시 AuthenticationProvider 정의 (UserDetailsService 있을 경우)
 }

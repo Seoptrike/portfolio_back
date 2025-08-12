@@ -1,37 +1,21 @@
-HELP.md
+# VCS / IDE
+.git
+.gitignore
+**/.idea
+**/.vscode
+**/.DS_Store
+
+# 빌드 산출물/로컬 캐시
+build
+**/build
 .gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+out
+target
+node_modules
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# 로그
+*.log
+**/*.log
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
+# 중요: gradlew/gradle-wrapper는 제외하지 말 것
+# (의도적으로 포함시키기 위해 일부러 아무 것도 안 뺌)
