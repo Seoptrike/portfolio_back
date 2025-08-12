@@ -8,7 +8,6 @@ import com.backend.domain.career.WorkExperiencesVO;
 import java.util.List;
 
 public interface CareerService {
-    List<WorkExperiencesVO> findWorkExpByUserId(int userId);
 
     void insertWorkExp(WorkExpRequestDTO dto);
 
@@ -16,7 +15,6 @@ public interface CareerService {
 
     void deleteWorkExp(int workId);
 
-    List<EducationHistoryVO> findEduHistoriesByUserId(int userId);
 
     void insertEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO);
 

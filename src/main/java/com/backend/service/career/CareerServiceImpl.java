@@ -23,10 +23,6 @@ public class CareerServiceImpl implements CareerService {
     private final EducationHistoryMapper educationHistoryMapper;
     private final ModelMapper modelMapper;
 
-    @Override
-    public List<WorkExperiencesVO> findWorkExpByUserId(int userId) {
-        return workExperienceMapper.findWorkExpByUserId(userId);
-    }
 
     @Override
     public void insertWorkExp(WorkExpRequestDTO dto) {
@@ -49,10 +45,6 @@ public class CareerServiceImpl implements CareerService {
         workExperienceMapper.deleteWorkExp(workId);
     }
 
-    @Override
-    public List<EducationHistoryVO> findEduHistoriesByUserId(int userId) {
-        return educationHistoryMapper.findEduHistoryByUserID(userId);
-    }
 
     @Override
     public void insertEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO) {
