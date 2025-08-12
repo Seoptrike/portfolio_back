@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,5 +36,18 @@ public class CorsConfig {
         source.registerCorsConfiguration("/**", config); // 모든 경로에 대해 위 설정 적용
 
         return source;
+    }
+
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+
+        // 이 부분이 진짜 해결책입니다.
+        serializer.setSameSite("None");
+
+        // HTTPS에서만 쿠키를 전송하도록 설정합니다.
+        serializer.setUseSecureCookie(true);
+
+        return serializer;
     }
 }
