@@ -39,6 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.debug("JWT token not found in Authorization header nor cookie");
         }
 
+        boolean ok = false;
+        try { ok = (token != null && jwtUtil.validateToken(token)); }
+        catch (Exception e) { log.warn("validateToken threw: {}", e.toString()); }
+        log.debug("JWT validateToken = {}", ok);
+
+
         try {
             if (token != null && jwtUtil.validateToken(token)) {
                 Claims claims = jwtUtil.parseToken(token);
@@ -54,6 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 var ctx = SecurityContextHolder.createEmptyContext();
                 ctx.setAuthentication(auth);
                 SecurityContextHolder.setContext(ctx);
+                log.debug("JWT auth set for username={}", username);
             } else {
                 SecurityContextHolder.clearContext(); // 유효하지 않으면 컨텍스트 정리
             }
@@ -82,12 +89,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    // (선택) 로그인/회원가입/헬스체크 등은 필터 스킵
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        return uri.startsWith("/api/auth/login")
-                || uri.startsWith("/api/auth/register")
+        String method = request.getMethod();
+        return ("/api/auth/login".equals(uri) && "POST".equals(method))   // 딱 로그인 POST만 스킵
+                || ("/api/auth/register".equals(uri) && "POST".equals(method))
                 || uri.startsWith("/actuator");
     }
 }
