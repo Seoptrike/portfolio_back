@@ -1,31 +1,26 @@
-# syntax=docker/dockerfile:1
-
-# ---- build stage ----
-FROM gradle:8.8-jdk21 AS build
+# ---- Build stage ----
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
 
-# 래퍼/스크립트 먼저 (캐시 최적화)
-COPY gradlew settings.gradle* build.gradle* ./
-COPY gradle/wrapper/ gradle/wrapper/
+# Gradle 캐시를 위해 설정/의존 먼저 복사
+COPY gradlew gradle/ settings.gradle build.gradle ./
+# (멀티모듈/버전 카탈로그 쓰면 여기도 추가 COPY)
 
-# 윈도우 개행/권한 이슈 방지
-RUN chmod +x gradlew && sed -i 's/\r$//' gradlew && ./gradlew --no-daemon --version
-
-# 의존성 캐시(실패해도 계속)
+# 의존성만 먼저 받기 (캐시)
 RUN ./gradlew --no-daemon dependencies || true
 
-# 소스 복사 후 실제 빌드
-COPY src ./src
-RUN ./gradlew --no-daemon clean bootJar \
-    -x test -x pmdMain -x pmdTest -x spotlessCheck \
-    --stacktrace --info --warning-mode all \
- && JAR=$(ls build/libs/*.jar | grep -v plain | head -n 1) \
- && cp "$JAR" app.jar
+# 실제 소스
+COPY . .
 
-# ---- run stage ----
+# 테스트 생략 빌드 (배포용)
+RUN ./gradlew --no-daemon assemble -x test
+
+# ---- Run stage ----
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=build /app/app.jar /app/app.jar
-ENV TZ=Asia/Seoul
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+COPY --from=build /app/build/libs/*.jar app.jar
+
+# 프로파일/포트는 환경변수로 제어
+ENV JAVA_OPTS="-XX:+UseContainerSupport"
+EXPOSE 10000
+CMD ["sh","-c","java $JAVA_OPTS -jar app.jar"]
