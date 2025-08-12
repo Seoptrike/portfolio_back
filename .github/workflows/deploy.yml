@@ -2,17 +2,17 @@ name: Build & Push Docker, Redeploy Render
 
 on:
   push:
-    branches: [ master ]     # master에 push될 때만 실행
-  workflow_dispatch:          # 수동 실행도 허용
+    branches: [ master ]
+  workflow_dispatch:
 
 permissions:
   contents: read
-  packages: write             # GHCR 푸시에 필요
+  packages: write
   id-token: write
 
 env:
   IMAGE: ghcr.io/seoptrike/portfolio_back
-  TAG: prod                   # Render는 이 태그로 Pull
+  TAG: prod
 
 jobs:
   build-and-push:
@@ -38,8 +38,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE }}:${{ env.TAG }}
-            ${{ env.IMAGE }}:${{ github.sha }}   # 선택: 롤백용 SHA 태그
+            ghcr.io/seoptrike/portfolio_back:prod
+            ghcr.io/seoptrike/portfolio_back:${{ github.sha }}
           platforms: linux/amd64
           build-args: |
             BUILDKIT_INLINE_CACHE=1
