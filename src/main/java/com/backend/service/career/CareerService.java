@@ -1,5 +1,6 @@
 package com.backend.service.career;
 
+import com.backend.domain.career.EducationHistoryRequestDTO;
 import com.backend.domain.career.EducationHistoryVO;
 import com.backend.domain.career.WorkExpRequestDTO;
 import com.backend.domain.career.WorkExperiencesVO;
@@ -17,9 +18,9 @@ public interface CareerService {
 
     List<EducationHistoryVO> findEduHistoriesByUserId(int userId);
 
-    void insertEduHistory(EducationHistoryVO evo);
+    void insertEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO);
 
-    void updateEduHistory(EducationHistoryVO evo);
+    void updateEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO);
 
     void deleteEduHistory(int eduId);
 }

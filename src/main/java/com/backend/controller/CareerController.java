@@ -1,5 +1,6 @@
 package com.backend.controller;
 
+import com.backend.domain.career.EducationHistoryRequestDTO;
 import com.backend.domain.career.EducationHistoryVO;
 import com.backend.domain.career.WorkExpRequestDTO;
 import com.backend.domain.career.WorkExperiencesVO;
@@ -33,14 +34,14 @@ public class CareerController {
 
   // 📌 EducationHistory 등록
   @PostMapping("/education")
-  public void insertEduHistory(@RequestBody EducationHistoryVO evo) {
-    careerService.insertEduHistory(evo);
+  public void insertEduHistory(@RequestBody EducationHistoryRequestDTO edto) {
+    careerService.insertEduHistory(edto);
   }
 
   // 📌 EducationHistory 수정
   @PutMapping("/education")
-  public void updateEduHistory(@RequestBody EducationHistoryVO evo) {
-    careerService.updateEduHistory(evo);
+  public void updateEduHistory(@RequestBody EducationHistoryRequestDTO edto) {
+    careerService.updateEduHistory(edto);
   }
 
   // 📌 EducationHistory 삭제

@@ -1,5 +1,6 @@
 package com.backend.service.career;
 
+import com.backend.domain.career.EducationHistoryRequestDTO;
 import com.backend.domain.career.EducationHistoryVO;
 import com.backend.domain.career.WorkExpRequestDTO;
 import com.backend.domain.career.WorkExperiencesVO;
@@ -54,12 +55,18 @@ public class CareerServiceImpl implements CareerService {
     }
 
     @Override
-    public void insertEduHistory(EducationHistoryVO evo) {
+    public void insertEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO) {
+        int userId = userMapper.findUserID(educationHistoryRequestDTO.getUsername());
+        EducationHistoryVO evo = modelMapper.map(educationHistoryRequestDTO, EducationHistoryVO.class);
+        evo.setUserId(userId);
         educationHistoryMapper.insertEduHistory(evo);
     }
 
     @Override
-    public void updateEduHistory(EducationHistoryVO evo) {
+    public void updateEduHistory(EducationHistoryRequestDTO educationHistoryRequestDTO) {
+        int userId = userMapper.findUserID(educationHistoryRequestDTO.getUsername());
+        EducationHistoryVO evo = modelMapper.map(educationHistoryRequestDTO, EducationHistoryVO.class);
+        evo.setUserId(userId);
         educationHistoryMapper.updateEduHistory(evo);
     }
 
