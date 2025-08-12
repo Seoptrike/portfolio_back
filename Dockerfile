@@ -23,4 +23,4 @@ COPY --from=build /app/build/libs/*.jar app.jar
 # 프로파일/포트는 환경변수로 제어
 ENV JAVA_OPTS="-XX:+UseContainerSupport"
 EXPOSE 10000
-CMD ["sh","-c","java $JAVA_OPTS -jar app.jar"]
+CMD ["sh","-c","echo PORT=$PORT && java $JAVA_OPTS -Dserver.port=${PORT:-10000} -Dserver.address=0.0.0.0 -jar app.jar"]
