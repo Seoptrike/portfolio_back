@@ -3,6 +3,7 @@ package com.backend.controller;
 import com.backend.domain.auth.LoginRequestDTO;
 import com.backend.domain.auth.LoginResponseDTO;
 import com.backend.domain.user.UsersVO;
+import com.backend.security.CustomUserDetails;
 import com.backend.service.auth.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,31 +74,15 @@ public class AuthController {
     }
 
     @GetMapping("/loginCheck")
-    public ResponseEntity<Map<String, Object>> loginCheck(Authentication auth) {
-//        var ctxAuth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        Map<String, Object> r = new HashMap<>();
-//        r.put("paramIsNull", auth == null);
-//        r.put("ctxIsNull", ctxAuth == null);
-//        r.put("sameRef", auth == ctxAuth);
-//        r.put("paramClass", auth == null ? null : auth.getClass().getName());
-//        r.put("ctxClass", ctxAuth == null ? null : ctxAuth.getClass().getName());
-//        r.put("paramName", auth == null ? null : auth.getName());
-//        r.put("ctxName", ctxAuth == null ? null : ctxAuth.getName());
-//
-//        if (ctxAuth == null) { r.put("status", "GUEST"); return ResponseEntity.ok(r); }
-//
-//        r.put("status", "LOGIN");
-//        return ResponseEntity.ok(r);
+    public ResponseEntity<Map<String, Object>> loginCheck(@AuthenticationPrincipal CustomUserDetails auth) {
         Map<String, Object> result = new HashMap<>();
-
-        if (auth == null || !auth.isAuthenticated()) {
+        if (auth == null) {
             result.put("status", "GUEST");
             return ResponseEntity.ok(result);
         }
-
         result.put("status", "LOGIN");
-        result.put("username", auth.getName()); // 토큰에 담긴 사용자 아이디
+        result.put("username", auth.getUsername());
+        result.put("userId", auth.getUserId()); // ✅ 정상 동작
         return ResponseEntity.ok(result);
     }
 

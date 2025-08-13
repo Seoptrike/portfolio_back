@@ -1,7 +1,6 @@
 package com.backend.mapper;
 
 import com.backend.domain.about.AboutMeVO;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
 import java.util.List;

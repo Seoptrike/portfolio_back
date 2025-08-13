@@ -9,9 +9,37 @@
         FROM users
     </select>
 
-    <select id="findUserID" resultType="Integer" >
+    <select id="findUserID" resultType="Integer">
         SELECT user_id
         FROM users
-        WHERE username=#{username}
+        WHERE username = #{username}
     </select>
+
+    <select id="searchUsername" resultType="com.backend.domain.user.UsersVO">
+        SELECT username, photo, github_url
+        FROM users
+        WHERE username LIKE CONCAT('%', #{username}, '%')
+          and role = 1
+    </select>
+
+    <select id="getUserData" resultType="com.backend.domain.user.UsersVO">
+        SELECT user_id, username, phone, photo, role, photo_url_id
+        FROM users
+        WHERE user_id = #{userId}
+    </select>
+
+    <update id="updateUserData">
+        update users
+        set photo        = #{photo},
+            photo_url_id = #{photoUrlId},
+            phone        = #{photo},
+            github_url   = #{githubUrl}
+        WHERE user_id = #{userId}
+    </update>
+
+    <update id="softDeleteUserData">
+        UPDATE users
+        SET role = 99
+        WHERE user_id = #{userId}
+    </update>
 </mapper>

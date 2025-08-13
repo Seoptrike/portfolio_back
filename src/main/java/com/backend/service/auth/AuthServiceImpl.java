@@ -21,7 +21,6 @@ public class AuthServiceImpl implements AuthService {
   public LoginResponseDTO login(String username, String password) {
     LoginResponseDTO res = new LoginResponseDTO();
     UsersVO user = AuthMapper.findByUsername(username);
-
     if (user == null) {
       res.setResult(0);
       return res;

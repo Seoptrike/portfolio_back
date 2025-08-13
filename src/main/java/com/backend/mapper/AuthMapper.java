@@ -1,8 +1,6 @@
 package com.backend.mapper;
 
 import com.backend.domain.user.UsersVO;
-import org.apache.ibatis.annotations.Mapper;
-
 
 public interface AuthMapper {
 

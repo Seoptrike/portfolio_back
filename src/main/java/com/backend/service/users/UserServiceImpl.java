@@ -4,6 +4,8 @@ import com.backend.domain.project.ProjectResponseDTO;
 import com.backend.domain.user.UsersVO;
 import com.backend.mapper.*;
 import java.util.*;
+
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,6 @@ public class UserServiceImpl implements UserService {
   @Autowired EducationHistoryMapper educationHistoryMapper;
   @Autowired ProjectMapper projectMapper;
   @Autowired UserStackMapper userStackMapper;
-  @Autowired AboutMeMapper aboutMeMapper;
 
   @Override
   public List<UsersVO> getUserAllList() {
@@ -31,18 +32,41 @@ public class UserServiceImpl implements UserService {
     HashMap<String, Object> result = new HashMap<>();
     if (userID == null) {
       result.put("userID", "NONE");
+      result.put("userInfo", Collections.emptyList());
       result.put("workExperience", Collections.emptyList());
       result.put("educationHistory", Collections.emptyList());
       result.put("projects", Collections.emptyList());
       result.put("stacks", Collections.emptyList());
-      result.put("about", Collections.emptyList());
       return result;
     }
     result.put("userID", userID);
+    result.put("userInfo", userMapper.getUserData(userID));
     result.put("workExperience", workExperienceMapper.findWorkExpByUserId(userID));
     result.put("educationHistory", educationHistoryMapper.findEduHistoryByUserID(userID));
     result.put("projects", projectMapper.selectProjectsByUserId(userID));
     result.put("stacks", userStackMapper.selectUserStackByUserId(userID));
     return result;
+  }
+
+  @Override
+  public List<UsersVO> searchUsername(String username) {
+    return userMapper.searchUsername(username);
+  }
+
+  @Override
+  public void updateUserData(UsersVO vo) {
+    userMapper.updateUserData(vo);
+  }
+
+  @Override
+  public void softDeleteUser(String username) {
+    int userId = userMapper.findUserID(username);
+    userMapper.softDeleteUserData(userId);
+  }
+
+  @Override
+  public UsersVO getUserData(String username) {
+    int userId = userMapper.findUserID(username);
+    return userMapper.getUserData(userId);
   }
 }

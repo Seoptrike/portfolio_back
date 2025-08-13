@@ -18,5 +18,6 @@ public class ProjectResponseDTO {
   private String deployUrl;
   private String notionUrl;
   private String thumbnailUrl;
+  private String thumbnailFileId;
   private List<TechStacksVO> stackNames;
 }

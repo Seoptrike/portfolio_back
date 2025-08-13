@@ -17,5 +17,6 @@ public class ProjectRequestDTO {
   private String deployUrl;
   private String notionUrl;
   private String thumbnailUrl;
+  private String thumbnailFileId;
   private List<Integer> stackIds; // 기술스택 ID 목록
 }

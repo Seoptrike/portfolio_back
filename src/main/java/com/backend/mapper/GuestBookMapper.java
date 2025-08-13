@@ -1,10 +1,8 @@
 package com.backend.mapper;
 
 import com.backend.domain.guestbook.GuestbookVO;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
-
 
 public interface GuestBookMapper {
     List<GuestbookVO> getGuestBookById(@Param("hostId") int hostId);

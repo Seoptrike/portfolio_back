@@ -13,6 +13,7 @@ public class UsersVO {
   private String password;
   private String phone;
   private String photo;
+  private String photoUrlId;
   private String githubUrl;
   private int role;
   private LocalDateTime createdAt;

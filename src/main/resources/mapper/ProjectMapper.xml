@@ -15,7 +15,7 @@
         <result property="deployUrl" column="deploy_url"/>
         <result property="notionUrl" column="notion_url"/>
         <result property="thumbnailUrl" column="thumbnail_url"/>
-
+        <result property="thumbnailFileId" column="thumbnail_file_id"/>
         <!-- ★ TechStacksVO: stackId, name, categoryId 만 매핑 -->
         <collection property="stackNames" ofType="com.backend.domain.stack.TechStacksVO">
             <id property="stackId" column="s_stack_id"/>
@@ -28,9 +28,8 @@
     <insert id="insertProject" parameterType="com.backend.domain.project.ProjectsVO"
             useGeneratedKeys="true" keyProperty="projectId">
         INSERT INTO projects
-        (user_id, title, description, start_date, end_date, github_url, deploy_url, notion_url, thumbnail_url)
-        VALUES (#{userId}, #{title}, #{description}, #{startDate}, #{endDate}, #{githubUrl}, #{deployUrl}, #{notionUrl},
-                #{thumbnailUrl})
+        (user_id, title, description, start_date, end_date, github_url, deploy_url, notion_url, thumbnail_url, thumbnail_file_id)
+        VALUES (#{userId}, #{title}, #{description}, #{startDate}, #{endDate}, #{githubUrl}, #{deployUrl}, #{notionUrl},#{thumbnailUrl},#{thumbnailFileId})
     </insert>
 
     <update id="updateProject" parameterType="com.backend.domain.project.ProjectsVO">
@@ -42,7 +41,8 @@
             github_url    = #{githubUrl},
             deploy_url    = #{deployUrl},
             notion_url    = #{notionUrl},
-            thumbnail_url = #{thumbnailUrl}
+            thumbnail_url = #{thumbnailUrl},
+            thumbnail_file_id = #{thumbnailFileId}
         WHERE project_id = #{projectId}
     </update>
 
@@ -76,6 +76,7 @@
                p.deploy_url,
                p.notion_url,
                p.thumbnail_url,
+               p.thumbnail_file_id,
                s.stack_id    AS s_stack_id,
                s.name        AS s_name,
                s.category_id AS s_category_id
@@ -96,6 +97,7 @@
                p.deploy_url,
                p.notion_url,
                p.thumbnail_url,
+               p.thumbnail_file_id,
                s.stack_id    AS s_stack_id,
                s.name        AS s_name,
                s.category_id AS s_category_id
@@ -104,6 +106,12 @@
                  LEFT JOIN tech_stacks s ON s.stack_id = ps.stack_id
         WHERE p.project_id = #{projectId}
         ORDER BY s.name
+    </select>
+
+    <select id="getProjectByProjectId" resultType="com.backend.domain.project.ProjectsVO">
+        SELECT *
+        FROM projects
+        WHERE project_id = #{projectId}
     </select>
 
 </mapper>

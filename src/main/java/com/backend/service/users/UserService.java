@@ -10,4 +10,12 @@ public interface UserService {
   int findUserID(String username);
 
   HashMap<String, Object> getUserTotalData(String username);
+
+  List<UsersVO> searchUsername(String username);
+
+  void updateUserData(UsersVO vo);
+
+  void softDeleteUser(String username);
+
+  UsersVO getUserData(String username);
 }

@@ -3,7 +3,6 @@ package com.backend.mapper;
 import com.backend.domain.career.EducationHistoryVO;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 

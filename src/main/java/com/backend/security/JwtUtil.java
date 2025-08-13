@@ -19,7 +19,7 @@ public class JwtUtil {
     return Jwts.builder()
         .setSubject(user.getUsername())
         .claim("username", user.getUsername())
-        .claim("user_id", user.getUserId())
+        .claim("userId", user.getUserId())
         .claim("role", user.getRole() == 0 ? "ADMIN" : "USER") // ← role을 문자열로
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

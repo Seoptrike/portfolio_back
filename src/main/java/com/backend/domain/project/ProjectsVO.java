@@ -18,6 +18,7 @@ public class ProjectsVO {
   private String deployUrl;
   private String notionUrl;
   private String thumbnailUrl;
+  private String thumbnailFileId;
   private Timestamp createdAt;
   private Timestamp updatedAt;
 }

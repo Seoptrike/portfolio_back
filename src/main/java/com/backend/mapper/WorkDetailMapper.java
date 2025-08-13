@@ -2,8 +2,6 @@ package com.backend.mapper;
 
 import com.backend.domain.career.WorkExperiencesVO;
 import com.backend.domain.work.WorkDetailsVO;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 
 public interface WorkDetailMapper {
