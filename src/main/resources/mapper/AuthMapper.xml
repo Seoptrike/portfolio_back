@@ -21,8 +21,8 @@
     </select>
 
     <insert id="register" parameterType="com.backend.domain.user.UsersVO">
-        INSERT INTO users (username,password,phone,photo,github_url)
-        values (#{username}, #{password}, #{phone}, #{photo}, #{githubUrl})
+        INSERT INTO users (username,password,phone,photo,github_url,photo_url_id)
+        values (#{username}, #{password}, #{phone}, #{photo}, #{githubUrl}, #{photoUrlId})
     </insert>
 
 </mapper>

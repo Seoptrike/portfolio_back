@@ -23,7 +23,7 @@
     </select>
 
     <select id="getUserData" resultType="com.backend.domain.user.UsersVO">
-        SELECT user_id, username, phone, photo, role, photo_url_id
+        SELECT user_id, username, phone, photo, role, photo_url_id, github_url
         FROM users
         WHERE user_id = #{userId}
     </select>
@@ -32,7 +32,7 @@
         update users
         set photo        = #{photo},
             photo_url_id = #{photoUrlId},
-            phone        = #{photo},
+            phone        = #{phone},
             github_url   = #{githubUrl}
         WHERE user_id = #{userId}
     </update>
