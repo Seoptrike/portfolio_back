@@ -1,6 +1,7 @@
 package com.backend.service.stack;
 
 import com.backend.domain.stack.UserStackRequestDTO;
+import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
 import java.util.HashMap;
 import java.util.List;
@@ -12,5 +13,5 @@ public interface UserStackService {
 
   void updateUserStack(UserStackRequestDTO dto);
 
-  List<HashMap<String, Object>> selectUserStackByUserId(String username);
+  List<UserStackResponseDTO> selectUserStackByUserId(String username);
 }

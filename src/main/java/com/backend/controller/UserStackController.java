@@ -1,6 +1,7 @@
 package com.backend.controller;
 
 import com.backend.domain.stack.UserStackRequestDTO;
+import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
 import com.backend.service.stack.UserStackService;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public class UserStackController {
   }
 
   @GetMapping("/{username}")
-  List<HashMap<String, Object>> selectUserStackByUserId(@PathVariable String username) {
+  List<UserStackResponseDTO> selectUserStackByUserId(@PathVariable String username) {
     return userStackService.selectUserStackByUserId(username);
   }
 }

@@ -32,10 +32,11 @@
         WHERE user_id = #{user_id}
     </delete>
 
-    <select id="selectUserStackByUserId" resultType="hashMap">
+    <select id="selectUserStackByUserId" resultType="com.backend.domain.stack.UserStackResponseDTO">
         SELECT
             ts.stack_id,
-            ts.name AS stack_name,
+            ts.name,
+            ts,category_id,
             COUNT(*) AS usage_count
         FROM
             projects p

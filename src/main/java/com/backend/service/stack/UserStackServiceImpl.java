@@ -2,6 +2,7 @@ package com.backend.service.stack;
 
 import com.backend.domain.stack.StackWithScore;
 import com.backend.domain.stack.UserStackRequestDTO;
+import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
 import com.backend.mapper.UserMapper;
 import com.backend.mapper.UserStackMapper;
@@ -51,7 +52,7 @@ public class UserStackServiceImpl implements UserStackService {
   }
 
   @Override
-  public List<HashMap<String, Object>> selectUserStackByUserId(String username) {
+  public List<UserStackResponseDTO> selectUserStackByUserId(String username) {
     int userId = userMapper.findUserID(username);
     return userStackMapper.selectUserStackByUserId(userId);
   }

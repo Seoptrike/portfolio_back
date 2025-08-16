@@ -1,5 +1,6 @@
 package com.backend.mapper;
 
+import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
 import java.util.HashMap;
 import java.util.List;
@@ -12,5 +13,5 @@ public interface UserStackMapper {
 
   void deleteUserStack(@Param("user_id") int userId);
 
-  List<HashMap<String, Object>> selectUserStackByUserId(@Param("userId") int userId);
+  List<UserStackResponseDTO> selectUserStackByUserId(@Param("userId") int userId);
 }
