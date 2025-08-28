@@ -9,4 +9,6 @@ public interface AuthMapper {
 
   // 회원가입
   void register(UsersVO user);
+
+  void updateLastLogin(int userId);
 }

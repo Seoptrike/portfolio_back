@@ -1,4 +1,4 @@
-package com.backend;
+package com.backend.config;
 
 import com.backend.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;

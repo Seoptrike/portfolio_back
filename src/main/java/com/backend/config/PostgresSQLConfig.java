@@ -1,4 +1,4 @@
-package com.backend;
+package com.backend.config;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;

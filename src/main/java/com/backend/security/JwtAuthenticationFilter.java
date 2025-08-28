@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import lombok.RequiredArgsConstructor; // 롬복 사용
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
     // 로그인에서 발급한 쿠키명과 반드시 동일해야 함
     private static final String COOKIE_NAME = "token";
 
@@ -43,16 +43,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Claims claims = jwtUtil.parseToken(token);
                 Long userId = claims.get("userId", Long.class);
                 String username = claims.get("username", String.class);
-                String role = claims.get("role", String.class);
+                if (username == null) username = claims.getSubject();
 
-                var authorities = List.<GrantedAuthority>of(new SimpleGrantedAuthority("ROLE_" + role));
+                // ---- roles 파싱 (배열 우선, 단일 role 문자열도 호환) ----
+                List<SimpleGrantedAuthority> authorities;
+                Object rolesClaim = claims.get("roles");
+                if (rolesClaim instanceof List<?> list && !list.isEmpty()) {
+                    authorities = list.stream()
+                            .filter(Objects::nonNull)
+                            .map(Object::toString) // ROLE_ 접두사 포함 가정
+                            .map(SimpleGrantedAuthority::new)
+                            .toList();
+                } else {
+                    // 구버전 호환: "role": "ADMIN" 혹은 "ROLE_ADMIN"
+                    String roleSingle = claims.get("role", String.class);
+                    if (roleSingle != null && !roleSingle.isBlank()) {
+                        String normalized = roleSingle.startsWith("ROLE_")
+                                ? roleSingle
+                                : "ROLE_" + roleSingle;
+                        authorities = List.of(new SimpleGrantedAuthority(normalized));
+                    } else {
+                        authorities = List.of(); // 권한 없음
+                    }
+                }
                 var principal = new CustomUserDetails(userId, username, authorities);
-
                 var auth = new UsernamePasswordAuthenticationToken(principal, null, authorities);
-
-                var ctx = SecurityContextHolder.createEmptyContext();
-                ctx.setAuthentication(auth);
-                SecurityContextHolder.setContext(ctx);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+//                var ctx = SecurityContextHolder.createEmptyContext();
+//                ctx.setAuthentication(auth);
+//                SecurityContextHolder.setContext(ctx);
             } else {
                 SecurityContextHolder.clearContext(); // 유효하지 않으면 컨텍스트 정리
             }

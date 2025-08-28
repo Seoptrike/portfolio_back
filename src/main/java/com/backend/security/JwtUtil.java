@@ -1,5 +1,6 @@
 package com.backend.security;
 
+import com.backend.domain.auth.RoleType;
 import com.backend.domain.user.UsersVO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -16,11 +17,16 @@ public class JwtUtil {
   private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
   public String generateToken(UsersVO user) {
+    RoleType roleType = RoleType.fromCode(user.getRole());
+    if (roleType == RoleType.WITHDRAWN) {
+      throw new IllegalStateException("Withdrawn user cannot get a token");
+    }
+
     return Jwts.builder()
         .setSubject(user.getUsername())
         .claim("username", user.getUsername())
         .claim("userId", user.getUserId())
-        .claim("role", user.getRole() == 0 ? "ADMIN" : "USER") // ← role을 문자열로
+        .claim("roles", java.util.List.of(roleType.getRoleName())) // ← role을 문자열로
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(key, SignatureAlgorithm.HS256)

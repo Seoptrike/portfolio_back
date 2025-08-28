@@ -1,9 +1,7 @@
 package com.backend.controller;
 
 import com.backend.domain.career.EducationHistoryRequestDTO;
-import com.backend.domain.career.EducationHistoryVO;
 import com.backend.domain.career.WorkExpRequestDTO;
-import com.backend.domain.career.WorkExperiencesVO;
 import com.backend.service.career.CareerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

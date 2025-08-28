@@ -25,4 +25,11 @@
         values (#{username}, #{password}, #{phone}, #{photo}, #{githubUrl}, #{photoUrlId})
     </insert>
 
+    <!-- 로그인시 마지막 로그인 일자 업데이트 -->
+    <update id="updateLastLogin">
+        update users
+        set last_login =now()
+        where user_id = #{userId}
+    </update>
+
 </mapper>

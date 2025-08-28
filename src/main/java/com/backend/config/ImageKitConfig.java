@@ -1,4 +1,4 @@
-package com.backend;
+package com.backend.config;
 
 import io.imagekit.sdk.ImageKit;
 import io.imagekit.sdk.config.Configuration;

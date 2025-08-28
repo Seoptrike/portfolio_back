@@ -5,7 +5,6 @@ import com.backend.domain.auth.LoginResponseDTO;
 import com.backend.domain.user.UsersVO;
 import com.backend.security.CustomUserDetails;
 import com.backend.service.auth.AuthService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -18,8 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -82,7 +81,9 @@ public class AuthController {
         }
         result.put("status", "LOGIN");
         result.put("username", auth.getUsername());
-        result.put("userId", auth.getUserId()); // ✅ 정상 동작
+        result.put("userId", auth.getUserId());
+        result.put("roles", auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).toList());
         return ResponseEntity.ok(result);
     }
 

@@ -18,4 +18,5 @@ public class UsersVO {
   private int role;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
+  private String oneLineBanner;
 }
