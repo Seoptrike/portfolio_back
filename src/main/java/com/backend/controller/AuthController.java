@@ -31,25 +31,29 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO dto,
                                    HttpServletRequest req, HttpServletResponse res) {
         LoginResponseDTO out = authService.login(dto.getUsername(), dto.getPassword());
-        if (out.getResult() != 2) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(out);
+        if (out.getResult() == 2) {
+            // ✅ 성공: 쿠키를 생성하고 응답 헤더에 추가
+            boolean https = req.isSecure() || "https".equalsIgnoreCase(req.getHeader("X-Forwarded-Proto"));
+            String sameSite = https ? "None" : "Lax";
+
+            ResponseCookie cookie = ResponseCookie.from("token", out.getToken())
+                    .httpOnly(true)
+                    .secure(https)
+                    .sameSite(sameSite)
+                    .path("/")
+                    .maxAge(60 * 60)   // 1시간
+                    .build();
+
+            res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            out.setToken(null); // 응답 본문에서는 토큰 제거
+
+            // 성공 응답 (200 OK) 반환
+            return ResponseEntity.ok(out);
+
+        } else {
+            // ✅ 실패: 쿠키 생성 없이 결과(out)만 담아 실패 응답(401 Unauthorized) 반환
+            return ResponseEntity.ok(out);
         }
-
-        // 프로덕션(HTTPS) 판단: 프록시 헤더까지 고려
-        boolean https = req.isSecure() || "https".equalsIgnoreCase(req.getHeader("X-Forwarded-Proto"));
-        String sameSite = https ? "None" : "Lax"; // 로컬(http)에서는 Lax, 프로덕션은 None
-
-        ResponseCookie cookie = ResponseCookie.from("token", out.getToken()) // ← 필터의 쿠키명과 동일
-                .httpOnly(true)
-                .secure(https)
-                .sameSite(sameSite)
-                .path("/")
-                .maxAge(60 * 60)   // 1h
-                .build();
-
-        res.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-        out.setToken(null); // 바디엔 토큰 제거(선택)
-        return ResponseEntity.ok(out);
     }
 
     // 로그아웃

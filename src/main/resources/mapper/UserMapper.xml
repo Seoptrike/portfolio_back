@@ -42,4 +42,5 @@
         SET role = 99
         WHERE user_id = #{userId}
     </update>
+
 </mapper>
