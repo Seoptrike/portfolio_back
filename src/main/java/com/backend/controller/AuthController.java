@@ -56,7 +56,7 @@ public class AuthController {
         }
     }
 
-    // 로그아웃
+    // 로그아웃ㅗㅅ
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest req, HttpServletResponse res) {
         boolean https = req.isSecure() || "https".equalsIgnoreCase(req.getHeader("X-Forwarded-Proto"));

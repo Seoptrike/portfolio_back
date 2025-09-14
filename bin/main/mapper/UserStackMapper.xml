@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.UserStackMapper">
+    <select id = "findStackByUserID" resultType="com.backend.domain.stack.UserStacksVO">
+        SELECT *
+        FROM user_stacks
+        WHERE user_id = #{user_id}
+    </select>
+
+    <select id = "findStackByUserIDWhereView" resultType="HashMap">
+        SELECT *
+        FROM v_user_stack_info
+        WHERE user_id= #{user_id};
+    </select>
+
+    <insert id = "insertUserStack" >
+        INSERT INTO user_stacks (user_id ,stack_id, score)
+        VALUES (#{user_id}, #{stack_id}, #{score})
+    </insert>
+
+    <update id="updateUserStack">
+        update user_stacks
+        SET stack_id = #{stack_id} and score = #{score}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <delete id="deleteUserStack">
+        DELETE FROM user_stacks
+        WHERE user_id = #{user_id}
+    </delete>
+
+    <select id="selectUserStackByUserId" resultType="com.backend.domain.stack.UserStackResponseDTO">
+        SELECT
+            ts.stack_id,
+            ts.name,
+            ts,category_id,
+            COUNT(*) AS usage_count
+        FROM
+            projects p
+                JOIN project_stack ps ON p.project_id = ps.project_id
+                JOIN tech_stacks ts ON ps.stack_id = ts.stack_id
+        WHERE
+            p.user_id = #{userId}
+        GROUP BY
+            ts.stack_id, ts.name
+        ORDER BY
+            usage_count DESC;
+    </select>
+</mapper>

@@ -37,7 +37,8 @@ public class SecurityConfig {
         c.setAllowedOriginPatterns(List.of(
                 "http://localhost:5173",
                 "https://portfolio-front-dun.vercel.app",
-                "https://*.vercel.app"
+                "https://*.vercel.app",
+                "https://kiminseop.info"
         ));
         c.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         c.setAllowedHeaders(List.of("*"));

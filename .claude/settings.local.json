@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./gradlew:*)",
+      "Bash(java:*)",
+      "Bash(echo $JAVA_HOME)",
+      "Bash(dir:*)",
+      "Bash(set JAVA_HOME=C:Program FilesJavajdk-21)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

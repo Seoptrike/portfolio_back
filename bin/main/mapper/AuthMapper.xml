@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.AuthMapper">
+
+    <!-- 사용자 로그인 정보 조회 -->
+    <select id="login" parameterType="com.backend.domain.user.UsersVO" resultType="com.backend.domain.user.UsersVO">
+        SELECT *
+        FROM users
+        WHERE username = #{username}
+          AND password = #{password}
+    </select>
+
+    <!-- 사용자 아이디로 사용자 정보 조회 -->
+    <select id="findByUsername" parameterType="string" resultType="com.backend.domain.user.UsersVO">
+        SELECT *
+        FROM users
+        WHERE username = #{username}
+    </select>
+
+    <insert id="register" parameterType="com.backend.domain.user.UsersVO">
+        INSERT INTO users (username,password,phone,photo,github_url,photo_url_id)
+        values (#{username}, #{password}, #{phone}, #{photo}, #{githubUrl}, #{photoUrlId})
+    </insert>
+
+    <!-- 로그인시 마지막 로그인 일자 업데이트 -->
+    <update id="updateLastLogin">
+        update users
+        set last_login =now()
+        where user_id = #{userId}
+    </update>
+
+</mapper>

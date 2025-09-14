@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.AboutMeMapper">
+    <!-- 자기소개서 생성 -->
+    <insert id="insertAboutMe" useGeneratedKeys="true" keyProperty="aboutId">
+        INSERT INTO about_me (user_id)
+        VALUES (#{userId})
+    </insert>
+
+    <!-- 자기소개서 단건 조회 -->
+    <select id="getAboutMeById" resultType="com.backend.domain.about.AboutMeVO">
+        SELECT *
+        FROM about_me
+        WHERE about_id = #{aboutId}
+    </select>
+
+    <!-- 사용자별 자기소개서 목록 조회 -->
+    <select id="getAboutMeListByUserId" resultType="HashMap">
+        select ad.*
+        from about_me a
+                 join about_me_detail ad
+                      on a.about_id = ad.about_id
+        where user_id = #{userId}
+        order by sort desc;
+    </select>
+
+    <!-- 자기소개서 갱신 (내용 없음: 타임스탬프만 갱신용) -->
+    <update id="updateAboutMe">
+        UPDATE about_me
+        SET updated_at = CURRENT_TIMESTAMP
+        WHERE about_id = #{aboutId}
+    </update>
+
+    <!-- 자기소개서 삭제 -->
+    <delete id="deleteAboutMe">
+        DELETE
+        FROM about_me
+        WHERE about_id = #{aboutId}
+    </delete>
+</mapper>

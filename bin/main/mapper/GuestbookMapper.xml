@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.mapper.GuestBookMapper">
+    <select id="getGuestBookById" resultType="com.backend.domain.guestbook.GuestbookResponseDTO">
+        SELECT
+            gb.*,
+            host_user.username AS hostname,    -- 방명록 주인의 이름
+            guest_user.username AS guestname   -- 메시지 작성자의 이름
+        FROM
+            guestbook gb
+                JOIN
+            users host_user ON gb.host_id = host_user.user_id
+                JOIN
+            users guest_user ON gb.guest_id = guest_user.user_id
+        WHERE
+            gb.host_id = #{hostId}
+        ORDER BY
+            gb.created_at DESC;
+    </select>
+
+    <select id="findGuestBookById" resultType="com.backend.domain.guestbook.GuestbookVO">
+        SELECT *
+        FROM guestbook
+        WHERE guestbook_id = #{guestbookId}
+    </select>
+
+    <insert id="insertGuestBook">
+        INSERT INTO guestbook (host_id, guest_id, message)
+        values (#{hostId} ,#{guestId}, #{message});
+    </insert>
+
+    <update id="updateGuestBook">
+        UPDATE guestbook
+        SET message = #{message}
+        WHERE guestbook_id = #{guestbookId}
+    </update>
+
+    <delete id="deleteGuestBook">
+        DELETE FROM guestbook
+        WHERE guestbook_id = #{guestbookId}
+    </delete>
+
+</mapper>
