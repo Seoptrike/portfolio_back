@@ -19,5 +19,17 @@ node_modules
 
 # local-only Spring profiles
 src/main/resources/application-local.properties
+
+# 불필요한 문서/텍스트 파일들
+*.md
+!README.md
+!readme.md
+*.html
+!index.html
+*.txt
+temp/
+tmp/
+docs/temp/
+
 # 중요: gradlew/gradle-wrapper는 제외하지 말 것
 # (의도적으로 포함시키기 위해 일부러 아무 것도 안 뺌)
