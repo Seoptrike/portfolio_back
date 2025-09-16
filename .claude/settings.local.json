@@ -5,7 +5,9 @@
       "Bash(java:*)",
       "Bash(echo $JAVA_HOME)",
       "Bash(dir:*)",
-      "Bash(set JAVA_HOME=C:Program FilesJavajdk-21)"
+      "Bash(set JAVA_HOME=C:Program FilesJavajdk-21)",
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

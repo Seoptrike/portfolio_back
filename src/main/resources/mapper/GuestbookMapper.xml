@@ -8,12 +8,12 @@
         SELECT
             gb.*,
             host_user.username AS hostname,    -- 방명록 주인의 이름
-            guest_user.username AS guestname   -- 메시지 작성자의 이름
+            COALESCE(gb.guest_name, guest_user.username, '알 수 없음') AS guestname
         FROM
             guestbook gb
                 JOIN
             users host_user ON gb.host_id = host_user.user_id
-                JOIN
+                LEFT JOIN
             users guest_user ON gb.guest_id = guest_user.user_id
         WHERE
             gb.host_id = #{hostId}
@@ -28,8 +28,8 @@
     </select>
 
     <insert id="insertGuestBook">
-        INSERT INTO guestbook (host_id, guest_id, message)
-        values (#{hostId} ,#{guestId}, #{message});
+        INSERT INTO guestbook (host_id, guest_id, message, guest_name, category)
+        VALUES (#{hostId}, #{guestId}, #{message}, #{guestName}, #{category});
     </insert>
 
     <update id="updateGuestBook">

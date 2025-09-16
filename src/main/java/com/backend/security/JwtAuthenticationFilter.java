@@ -106,6 +106,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         return ("/api/auth/login".equals(uri) && "POST".equals(method))   // 딱 로그인 POST만 스킵
                 || ("/api/auth/register".equals(uri) && "POST".equals(method))
-                || uri.startsWith("/actuator");
+                || uri.startsWith("/actuator")
+                || uri.startsWith("/api/guest");  // 익명 피드백을 위해 JWT 필터 건너뛰기
     }
 }

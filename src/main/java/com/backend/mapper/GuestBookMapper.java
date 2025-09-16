@@ -1,11 +1,12 @@
 package com.backend.mapper;
 
 import com.backend.domain.guestbook.GuestbookVO;
+import com.backend.domain.guestbook.GuestbookResponseDTO;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface GuestBookMapper {
-    List<GuestbookVO> getGuestBookById(@Param("hostId") int hostId);
+    List<GuestbookResponseDTO> getGuestBookById(@Param("hostId") int hostId);
 
     void insertGuestBook(GuestbookVO vo);
 

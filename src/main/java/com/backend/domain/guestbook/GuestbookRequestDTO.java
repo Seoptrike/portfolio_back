@@ -8,4 +8,5 @@ public class GuestbookRequestDTO {
     private int guestbookId;
     private String loginName; // loginname
     private String message;
+    private Integer category; // 피드백 카테고리 (enum code)
 }

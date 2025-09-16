@@ -42,6 +42,8 @@ dependencies {
 	implementation 'org.springframework.session:spring-session-jdbc'
 	implementation 'com.github.imagekit-developer:imagekit-java:2.0.1'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'  // WebClient용
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'  // Redis용
+	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'  // LocalDateTime 지원
 
 }
 
