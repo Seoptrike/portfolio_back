@@ -19,12 +19,12 @@ public class PostgresSQLConfig {
   public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
     SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
     sessionFactory.setDataSource(dataSource);
-    Resource[] resources = new PathMatchingResourcePatternResolver()
-            .getResources("classpath*:mapper/**/*.xml");
+    Resource[] resources =
+        new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/**/*.xml");
     sessionFactory.setMapperLocations(resources);
 
     org.apache.ibatis.session.Configuration mybatisConfig =
-            new org.apache.ibatis.session.Configuration();
+        new org.apache.ibatis.session.Configuration();
     mybatisConfig.setMapUnderscoreToCamelCase(true);
     sessionFactory.setConfiguration(mybatisConfig);
 

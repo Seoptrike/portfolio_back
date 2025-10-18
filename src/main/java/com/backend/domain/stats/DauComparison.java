@@ -8,9 +8,14 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class DauComparison {
-    private final long today;
-    private final long yesterday;
+  private final long today;
+  private final long yesterday;
 
-    public long diff() {return today-yesterday;}
-    public double growthRate() {return (yesterday==0)? 0.0 : (today -yesterday) / (double) yesterday;}
+  public long diff() {
+    return today - yesterday;
+  }
+
+  public double growthRate() {
+    return (yesterday == 0) ? 0.0 : (today - yesterday) / (double) yesterday;
+  }
 }

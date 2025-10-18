@@ -4,7 +4,6 @@ import com.backend.domain.stack.TechCategoriesVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-
 public interface TechCategoryMapper {
   List<TechCategoriesVO> selectCategory();
 

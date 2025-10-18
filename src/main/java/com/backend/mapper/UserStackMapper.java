@@ -2,7 +2,6 @@ package com.backend.mapper;
 
 import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
-import java.util.HashMap;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

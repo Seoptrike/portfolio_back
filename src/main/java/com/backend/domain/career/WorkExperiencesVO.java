@@ -1,9 +1,8 @@
 package com.backend.domain.career;
 
+import com.backend.domain.work.WorkDetailsVO;
 import java.time.LocalDate;
 import java.util.List;
-
-import com.backend.domain.work.WorkDetailsVO;
 import lombok.Getter;
 import lombok.Setter;
 

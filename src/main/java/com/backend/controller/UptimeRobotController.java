@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/admin/uptimerobot")
 @RequiredArgsConstructor
 public class UptimeRobotController {
-    private final UptimeRobotService service;
+  private final UptimeRobotService service;
 
-    @GetMapping("/monitors")
-    public JsonNode getMonitors(
-            @RequestParam(defaultValue = "true") boolean logs,
-            @RequestParam(name = "responseTimes", defaultValue = "true") boolean responseTimes
-    ){
-        return service.fetchMonitors(logs,responseTimes);
-    }
+  @GetMapping("/monitors")
+  public JsonNode getMonitors(
+      @RequestParam(defaultValue = "true") boolean logs,
+      @RequestParam(name = "responseTimes", defaultValue = "true") boolean responseTimes) {
+    return service.fetchMonitors(logs, responseTimes);
+  }
 }

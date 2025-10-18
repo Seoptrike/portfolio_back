@@ -3,7 +3,6 @@ package com.backend.service.stack;
 import com.backend.domain.stack.UserStackRequestDTO;
 import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
-import java.util.HashMap;
 import java.util.List;
 
 public interface UserStackService {

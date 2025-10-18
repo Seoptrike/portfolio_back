@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class HealthController {
 
-    @GetMapping("/health")
-    public ResponseEntity<Void> healthGet() {
-        return ResponseEntity.ok().build();
-    }
+  @GetMapping("/health")
+  public ResponseEntity<Void> healthGet() {
+    return ResponseEntity.ok().build();
+  }
 
-    @RequestMapping(value = "/health", method = RequestMethod.HEAD)
-    public ResponseEntity<Void> healthHead() {
-        return ResponseEntity.ok().build();
-    }
+  @RequestMapping(value = "/health", method = RequestMethod.HEAD)
+  public ResponseEntity<Void> healthHead() {
+    return ResponseEntity.ok().build();
+  }
 }

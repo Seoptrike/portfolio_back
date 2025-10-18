@@ -2,8 +2,6 @@ package com.backend.mapper;
 
 import com.backend.domain.about.AboutMeDetailSortDTO;
 import com.backend.domain.about.AboutMeDetailVO;
-import org.apache.ibatis.annotations.Mapper;
-
 
 public interface AboutMeDetailMapper {
   // 생성

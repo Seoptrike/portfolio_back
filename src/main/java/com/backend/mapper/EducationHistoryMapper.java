@@ -2,9 +2,7 @@ package com.backend.mapper;
 
 import com.backend.domain.career.EducationHistoryVO;
 import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
-
 
 public interface EducationHistoryMapper {
   List<EducationHistoryVO> findEduHistoryByUserID(@Param("userId") int userId);

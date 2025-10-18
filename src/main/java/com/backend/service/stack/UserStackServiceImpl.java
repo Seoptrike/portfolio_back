@@ -6,7 +6,6 @@ import com.backend.domain.stack.UserStackResponseDTO;
 import com.backend.domain.stack.UserStacksVO;
 import com.backend.mapper.UserMapper;
 import com.backend.mapper.UserStackMapper;
-import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,8 @@
 package com.backend.mapper;
 
 import com.backend.domain.about.AboutMeVO;
-
 import java.util.HashMap;
 import java.util.List;
-
 
 public interface AboutMeMapper {
   // 생성
