@@ -38,7 +38,7 @@
         WHERE
             we.user_id = #{userId}
         ORDER BY
-            we.start_date DESC;
+            wd.work_detail_index ;
     </select>
 
     <insert id="insertWorkDetail">
